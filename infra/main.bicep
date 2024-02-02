@@ -77,7 +77,7 @@ param computerVisionSkuName string = 'S1'
 param chatGptDeploymentName string // Set in main.parameters.json
 param chatGptDeploymentCapacity int = 30
 param chatGpt4vDeploymentCapacity int = 10
-param chatGptModelName string = (openAiHost == 'azure') ? 'gpt-35-turbo' : 'gpt-3.5-turbo'
+param chatGptModelName string = (openAiHost == 'azure') ? 'gpt-4' : 'gpt-4-turbo'
 param chatGptModelVersion string = '0613'
 param embeddingDeploymentName string // Set in main.parameters.json
 param embeddingDeploymentCapacity int = 30
@@ -115,7 +115,7 @@ param useIntegratedVectorization bool = false
 
 var abbrs = loadJsonContent('abbreviations.json')
 var resourceToken = toLower(uniqueString(subscription().id, environmentName, location))
-var tags = { 'azd-env-name': environmentName }
+var tags = { 'Owner': 'Kyle', 'UseBy': '2099-12-31' }
 var computerVisionName = !empty(computerVisionServiceName) ? computerVisionServiceName : '${abbrs.cognitiveServicesComputerVision}${resourceToken}'
 
 var useKeyVault = useGPT4V || useSearchServiceKey
