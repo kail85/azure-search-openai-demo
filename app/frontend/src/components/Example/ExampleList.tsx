@@ -3,9 +3,9 @@ import { Example } from "./Example";
 import styles from "./Example.module.css";
 
 const DEFAULT_EXAMPLES: string[] = [
-    "What is included in my Northwind Health Plus plan that is not in standard?",
-    "What happens in a performance review?",
-    "What does a Product Manager do?"
+    "How does digital breast tomosynthesis differ from conventional mammography in diagnosing breast cancer?",
+    "What are the current recommendations for breast cancer screening in high-risk populations?",
+    "How do genetic factors influence the choice of breast cancer screening methods?"
 ];
 
 const GPT4V_EXAMPLES: string[] = [
