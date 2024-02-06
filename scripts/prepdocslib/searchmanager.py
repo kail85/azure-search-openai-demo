@@ -4,19 +4,18 @@ from typing import List, Optional
 
 # Workaround to use the preview SDK
 from azure.search.documents.indexes.models import (
-    HnswParameters,
     HnswAlgorithmConfiguration,
-    SemanticPrioritizedFields,
+    HnswParameters,
     SearchableField,
     SearchField,
     SearchFieldDataType,
     SearchIndex,
     SemanticConfiguration,
     SemanticField,
+    SemanticPrioritizedFields,
     SemanticSearch,
     SimpleField,
     VectorSearch,
-    VectorSearchAlgorithmKind,
     VectorSearchProfile,
     VectorSearchVectorizer,
 )
@@ -94,7 +93,7 @@ class SearchManager:
                     sortable=False,
                     facetable=False,
                     vector_search_dimensions=1536,
-                    vector_search_profile_name="embedding_config",
+                    vector_search_profile_name_name="embedding_config",
                 ),
                 SimpleField(name="category", type="Edm.String", filterable=True, facetable=True),
                 SimpleField(
@@ -138,7 +137,7 @@ class SearchManager:
                         sortable=False,
                         facetable=False,
                         vector_search_dimensions=1024,
-                        vector_search_profile="embedding_config",
+                        vector_search_profile_name="embedding_config",
                     ),
                 )
 
@@ -150,8 +149,7 @@ class SearchManager:
                         SemanticConfiguration(
                             name="default",
                             prioritized_fields=SemanticPrioritizedFields(
-                                title_field=None,
-                                content_fields=[SemanticField(field_name="content")],
+                                title_field=None, content_fields=[SemanticField(field_name="content")]
                             ),
                         )
                     ]
@@ -167,7 +165,6 @@ class SearchManager:
                         VectorSearchProfile(
                             name="embedding_config",
                             algorithm_configuration_name="hnsw_config",
-                            vectorizer=f"{self.search_info.index_name}-vectorizer" if self.use_int_vectorization else None,
                         ),
                     ],
                     vectorizers=vectorizers,
