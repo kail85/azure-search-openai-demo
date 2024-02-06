@@ -165,6 +165,7 @@ class SearchManager:
                         VectorSearchProfile(
                             name="embedding_config",
                             algorithm_configuration_name="hnsw_config",
+                            vectorizer=f"{self.search_info.index_name}-vectorizer" if self.use_int_vectorization else None,
                         ),
                     ],
                     vectorizers=vectorizers,
