@@ -115,7 +115,7 @@ param useIntegratedVectorization bool = false
 
 var abbrs = loadJsonContent('abbreviations.json')
 var resourceToken = toLower(uniqueString(subscription().id, environmentName, location))
-var tags = { 'Owner': 'Kyle', 'UseBy': '2099-12-31' }
+var tags = { 'Owner': 'Kyle', 'UseBy': '2099-12-31', 'Intention': 'Research' }
 var computerVisionName = !empty(computerVisionServiceName) ? computerVisionServiceName : '${abbrs.cognitiveServicesComputerVision}${resourceToken}'
 
 var useKeyVault = useGPT4V || useSearchServiceKey
