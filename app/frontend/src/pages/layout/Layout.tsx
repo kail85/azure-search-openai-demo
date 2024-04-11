@@ -19,16 +19,27 @@ const Layout = () => {
                     <nav>
                         <ul className={styles.headerNavList}>
                             <li>
-                                <NavLink to="/" className={({ isActive }) => (isActive ? styles.headerNavPageLinkActive : styles.headerNavPageLink)}>
-                                    Chat
+                                <NavLink
+                                        to="/"
+                                        className={({ isActive }) => (isActive ? styles.headerNavPageLinkActive : styles.headerNavPageLink)}
+                                        target="_blank"
+                                        onClick={event => {
+                                            event.preventDefault();
+                                            window.open(
+                                                "https://volpara.sharepoint.com/Science/ArticleLibrary/Forms/Compact%20%20Group%20By%20Publication%20Type.aspx",
+                                                "_blank"
+                                            );
+                                        }}
+                                    >
+                                        Article Library
                                 </NavLink>
                             </li>
-                            <li className={styles.headerNavLeftMargin}>
+                            {/* <li className={styles.headerNavLeftMargin}>
                                 <NavLink to="/qa" className={({ isActive }) => (isActive ? styles.headerNavPageLinkActive : styles.headerNavPageLink)}>
                                     Ask a question
                                 </NavLink>
-                            </li>
-                            <li className={styles.headerNavLeftMargin}>
+                            </li> */}
+                            {/* <li className={styles.headerNavLeftMargin}>
                                 <a href="https://aka.ms/entgptsearch" target={"_blank"} title="Github repository link">
                                     <img
                                         src={github}
@@ -39,7 +50,7 @@ const Layout = () => {
                                         className={styles.githubLogo}
                                     />
                                 </a>
-                            </li>
+                            </li> */}
                         </ul>
                     </nav>
                     <h4 className={styles.headerRightText}>Azure OpenAI + AI Search</h4>
