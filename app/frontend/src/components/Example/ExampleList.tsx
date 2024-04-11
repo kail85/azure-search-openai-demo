@@ -3,9 +3,9 @@ import { Example } from "./Example";
 import styles from "./Example.module.css";
 
 const DEFAULT_EXAMPLES: string[] = [
-    "How does digital breast tomosynthesis differ from conventional mammography in diagnosing breast cancer?",
-    "What are the current recommendations for breast cancer screening in high-risk populations?",
-    "How do genetic factors influence the choice of breast cancer screening methods?"
+    "What is Patient Hub?",
+    "What is Scorecard?",
+    "What is Risk Pathways?"
 ];
 
 const GPT4V_EXAMPLES: string[] = [

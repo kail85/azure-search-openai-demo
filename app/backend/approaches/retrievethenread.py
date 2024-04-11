@@ -22,7 +22,7 @@ class RetrieveThenReadApproach(Approach):
     """
 
     system_chat_template = (
-        "You are an intelligent assistant helping researcher with their questions about breast imaging, breast healthcare and related technologies. "
+        "You are an intelligent assistant helping Volpara employees and customers with their questions about curated and up to date product and technical publications. "
         + "Use 'you' to refer to the individual asking the questions even if they ask with 'I'. "
         + "Answer the following question using only the data provided in the sources below. "
         + "For tabular information return it as an html table. Do not return markdown format. "
@@ -32,15 +32,14 @@ class RetrieveThenReadApproach(Approach):
 
     # shots/sample conversation
     question = """
-'What are the recent advancements in breast imaging technology?'
+'What is Volpara Analytics? '
 
 Sources:
-info1.txt: Digital breast tomosynthesis (DBT), also known as 3D mammography, has shown to improve breast cancer detection rates and reduce false positives.
-info2.pdf: Artificial Intelligence (AI) is being integrated into breast imaging, helping to enhance image analysis and interpretation.
-info3.pdf: Contrast-enhanced spectral mammography (CESM) is a recent advancement that combines mammography and intravenous contrast material to highlight areas of increased blood flow in the breasts.
-info4.pdf: Automated whole-breast ultrasound (AWBU) is a new technology developed for women with dense breasts, which can miss cancers on mammograms.
+info1.pdf: Volpara Analytics is a software application used by breast imaging facilities to: Monitor quality assurance and performance; Provide objective evidence required for the ACR accreditation and FDA compliance processes.
+info2.pdf: Volpara Analytics delivers key performance and quality metrics that are updated with each mammography or tomosynthesis exam, including: patient positioning based on the TruPGMI clinical function, compression, based on the TruPressure clinical function, and equipment utilization.
+info3.pdf: Volpara Analytics software provides web services that display dashboards to users based on their assigned roles.
 """
-    answer = "Recent advancements in breast imaging include Digital breast tomosynthesis for better detection and fewer false positives [info1.txt], AI-enhanced image analysis [info2.pdf], contrast-enhanced spectral mammography for highlighting increased blood flow [info3.pdf], and automated whole-breast ultrasound for detecting cancers in dense breasts [info4.pdf]."
+    answer = "Volpara Analytics is a software used by breast imaging facilities to monitor performance and assure quality [info1.pdf]. It displays user-specific dashboards [info2.pdf] and provides necessary data for ACR accreditation and FDA compliance [[info1.pdf]]. The software updates key metrics with each mammography or tomosynthesis exam, tracking patient positioning, compression, and equipment utilization [info2.pdf]."
 
     def __init__(
         self,

@@ -14,7 +14,7 @@ const Layout = () => {
             <header className={styles.header} role={"banner"}>
                 <div className={styles.headerContainer}>
                     <Link to="/" className={styles.headerTitleContainer}>
-                        <h3 className={styles.headerTitle}>GPT + Enterprise data | Sample</h3>
+                        <h3 className={styles.headerTitle}>Volpara SPAM</h3>
                     </Link>
                     <nav>
                         <ul className={styles.headerNavList}>
@@ -26,12 +26,12 @@ const Layout = () => {
                                         onClick={event => {
                                             event.preventDefault();
                                             window.open(
-                                                "https://volpara.sharepoint.com/Science/ArticleLibrary/Forms/Compact%20%20Group%20By%20Publication%20Type.aspx",
+                                                "https://volpara.sharepoint.com/Marketing/MarketingMaterials/Forms/AllItems.aspx?id=%2FMarketing%2FMarketingMaterials%2FProduct%20Release%20Notes%20and%20Technical%20Publications&p=true&ct=1712810200817&or=Teams%2DHL&ga=1&LOF=1",
                                                 "_blank"
                                             );
                                         }}
                                     >
-                                        Article Library
+                                        Product Release
                                 </NavLink>
                             </li>
                             {/* <li className={styles.headerNavLeftMargin}>
