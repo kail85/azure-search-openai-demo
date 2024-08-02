@@ -6,7 +6,6 @@ from typing import Optional, Union
 from azure.core.credentials import AzureKeyCredential
 from azure.core.credentials_async import AsyncTokenCredential
 from azure.identity.aio import AzureDeveloperCliCredential, get_bearer_token_provider
-from azure.keyvault.secrets.aio import SecretClient
 
 from prepdocslib.blobmanager import BlobManager
 from prepdocslib.embeddings import (
@@ -43,19 +42,8 @@ def clean_key_if_exists(key: Union[str, None]) -> Union[str, None]:
 
 
 async def setup_search_info(
-    search_service: str,
-    index_name: str,
-    azure_credential: AsyncTokenCredential,
-    search_key: Union[str, None] = None,
-    key_vault_name: Union[str, None] = None,
-    search_secret_name: Union[str, None] = None,
+    search_service: str, index_name: str, azure_credential: AsyncTokenCredential, search_key: Union[str, None] = None
 ) -> SearchInfo:
-    if key_vault_name and search_secret_name:
-        async with SecretClient(
-            vault_url=f"https://{key_vault_name}.vault.azure.net", credential=azure_credential
-        ) as key_vault_client:
-            search_key = (await key_vault_client.get_secret(search_secret_name)).value  # type: ignore[attr-defined]
-
     search_creds: Union[AsyncTokenCredential, AzureKeyCredential] = (
         azure_credential if search_key is None else AzureKeyCredential(search_key)
     )
@@ -121,6 +109,7 @@ def setup_embeddings_service(
     openai_host: str,
     openai_model_name: str,
     openai_service: Union[str, None],
+    openai_custom_url: Union[str, None],
     openai_deployment: Union[str, None],
     openai_dimensions: int,
     openai_key: Union[str, None],
@@ -138,6 +127,7 @@ def setup_embeddings_service(
         )
         return AzureOpenAIEmbeddingService(
             open_ai_service=openai_service,
+            open_ai_custom_url=openai_custom_url,
             open_ai_deployment=openai_deployment,
             open_ai_model_name=openai_model_name,
             open_ai_dimensions=openai_dimensions,
@@ -228,7 +218,7 @@ async def main(strategy: Strategy, setup_index: bool = True):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         description="Prepare documents by extracting content from PDFs, splitting content into sections, uploading to blob storage, and indexing in a search index.",
-        epilog="Example: prepdocs.py '..\data\*' --storageaccount myaccount --container mycontainer --searchservice mysearch --index myindex -v",
+        epilog="Example: prepdocs.py '.\\data\*' --storageaccount myaccount --container mycontainer --searchservice mysearch --index myindex -v",
     )
     parser.add_argument("files", nargs="?", help="Files to be processed")
     parser.add_argument(
@@ -292,11 +282,6 @@ if __name__ == "__main__":
         help="Optional. Use this Azure AI Search account key instead of the current user identity to login (use az login to set current user for Azure)",
     )
     parser.add_argument(
-        "--searchsecretname",
-        required=False,
-        help="Required if searchkey is not provided and search service is free sku. Fetch the Azure AI Vision key from this keyvault instead of the instead of the current user identity to login (use az login to set current user for Azure)",
-    )
-    parser.add_argument(
         "--searchanalyzername",
         required=False,
         default="en.microsoft",
@@ -326,10 +311,16 @@ if __name__ == "__main__":
     parser.add_argument(
         "--disablebatchvectors", action="store_true", help="Don't compute embeddings in batch for the sections"
     )
+
+    parser.add_argument(
+        "--openaicustomurl",
+        required=False,
+        help="Optional. Use this custom OpenAI URL instead of the default OpenAI URL",
+    )
     parser.add_argument(
         "--openaikey",
         required=False,
-        help="Optional. Use this Azure OpenAI account key instead of the current user identity to login (use az login to set current user for Azure). This is required only when using non-Azure endpoints.",
+        help="Optional. Use this OpenAI account key instead of the current Azure user identity to login.",
     )
     parser.add_argument("--openaiorg", required=False, help="This is required only when using non-Azure endpoints.")
     parser.add_argument(
@@ -374,11 +365,6 @@ if __name__ == "__main__":
         help="Optional, required if --searchimages is specified. Endpoint of Azure AI Vision service to use when embedding images.",
     )
     parser.add_argument(
-        "--keyvaultname",
-        required=False,
-        help="Required only if any keys must be fetched from the key vault.",
-    )
-    parser.add_argument(
         "--useintvectorization",
         required=False,
         help="Required if --useintvectorization is specified. Enable Integrated vectorizer indexer support which is in preview)",
@@ -417,8 +403,6 @@ if __name__ == "__main__":
             index_name=args.index,
             azure_credential=azd_credential,
             search_key=clean_key_if_exists(args.searchkey),
-            key_vault_name=args.keyvaultname,
-            search_secret_name=args.searchsecretname,
         )
     )
     blob_manager = setup_blob_manager(
@@ -443,6 +427,7 @@ if __name__ == "__main__":
         openai_host=args.openaihost,
         openai_model_name=args.openaimodelname,
         openai_service=args.openaiservice,
+        openai_custom_url=args.openaicustomurl,
         openai_deployment=args.openaideployment,
         openai_dimensions=args.openaidimensions,
         openai_key=clean_key_if_exists(args.openaikey),
