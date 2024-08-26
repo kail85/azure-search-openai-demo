@@ -50,7 +50,7 @@ const Layout = () => {
                                         onClick={event => {
                                             event.preventDefault();
                                             window.open(
-                                                "https://volpara.sharepoint.com/Science/ArticleLibrary/Forms/Compact%20%20Group%20By%20Publication%20Type.aspx",
+                                                "https://matakina.visualstudio.com/Volpara%20Engineering/_search?text=pending%20finalization&type=workitem&pageSize=25&filters=Projects%7BVolpara%20Engineering%7DWork%20Item%20Types%7BTest%20Case%7D",
                                                 "_blank"
                                             );
                                         }}

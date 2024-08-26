@@ -3,9 +3,9 @@ import { Example } from "./Example";
 import styles from "./Example.module.css";
 
 const DEFAULT_EXAMPLES: string[] = [
-    "How does digital breast tomosynthesis differ from conventional mammography in diagnosing breast cancer?",
-    "What are the current recommendations for breast cancer screening in high-risk populations?",
-    "How do genetic factors influence the choice of breast cancer screening methods?"
+    "What are the prerequisites for the test case 'Hologic: Mismatched Patient/Procedure ID message'",
+    "Can you list the steps involved in the test case regarding 'Hologic: Grouped PH procedures'?",
+    "What is the expected outcome when launching and logging into PH in the test case ThreePalm?"
 ];
 
 const GPT4V_EXAMPLES: string[] = [

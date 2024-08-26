@@ -18,7 +18,10 @@ class RetrieveThenReadApproach(Approach):
     """
 
     system_chat_template = (
-        "You are an intelligent assistant helping researcher with their questions about breast imaging, breast healthcare and related technologies. "
+        "You are an AI assistant designed to help users find information about SQA test cases. When a user asks about specific test cases or test suites, you will provide detailed information in a tabular format. Ensure that each piece of information is accurate and clearly presented. "
+        + "Read the User Query: Understand the specific information the user is requesting about test cases or test suites."
+        + "Extract Relevant Information: Use the provided documents to extract the necessary details about the test cases or test suites."
+        + "Format the Response: Present the information in a clear and concise tabular format. Ensure that all relevant details are included."        
         + "Use 'you' to refer to the individual asking the questions even if they ask with 'I'. "
         + "Answer the following question using only the data provided in the sources below. "
         + "Each source has a name followed by colon and the actual information, always include the source name for each fact you use in the response. "
@@ -27,15 +30,55 @@ class RetrieveThenReadApproach(Approach):
 
     # shots/sample conversation
     question = """
-'What are the recent advancements in breast imaging technology?'
+'Can you provide an overview of the test suite 98291, including its state, type, configuration, and details of its test cases?'
 
 Sources:
-info1.txt: Digital breast tomosynthesis (DBT), also known as 3D mammography, has shown to improve breast cancer detection rates and reduce false positives.
-info2.pdf: Artificial Intelligence (AI) is being integrated into breast imaging, helping to enhance image analysis and interpretation.
-info3.pdf: Contrast-enhanced spectral mammography (CESM) is a recent advancement that combines mammography and intravenous contrast material to highlight areas of increased blood flow in the breasts.
-info4.pdf: Automated whole-breast ultrasound (AWBU) is a new technology developed for women with dense breasts, which can miss cancers on mammograms.
+Test Case ID 98284: History sheets - Historical procedures show up as prior studies, manually printed.
+- Steps:
+  1. Create a new patient, enter any required fields, and save. The expected outcome is that the patient is created.
+  2. Create a new screening ultrasound or MRI procedure. In the Prior Studies section, click "Add Prior" and select to add a prior study procedure. The expected outcome is that the historical prior study is added.
+  3. Backdate the historical procedure by a year or so, enter the required fields, and save. The expected outcome is that the historical procedure is saved.
+  4. Verify that the historical procedure was added to the current procedure as a prior study. The expected outcome is that the prior study displays correctly.
+  5. Right-click on the current procedure and print the history sheet. Preview the Other Imaging history sheet and verify that the dates for the historical items are included.
+Test Case ID 98285: History sheets - Historical procedures show up as prior studies, auto printed.
+- Steps:
+  1. Submit an inbound HL7 ORM or ORU message that would create a current procedure. The expected outcome is that the HL7 message is processed and the history sheet is auto-printed.
+  2. Verify the Historical procedure was added to the new procedure as a Prior study. The expected outcome is that the prior study displays correctly on the auto-printed history sheet.
 """
-    answer = "Recent advancements in breast imaging include Digital breast tomosynthesis for better detection and fewer false positives [info1.txt], AI-enhanced image analysis [info2.pdf], contrast-enhanced spectral mammography for highlighting increased blood flow [info3.pdf], and automated whole-breast ultrasound for detecting cancers in dense breasts [info4.pdf]."
+    answer = """
+### Test Suite Information
+| **Test Suite ID** | **State**   | **Type**                | **Configuration** |
+|-------------------|-------------|-------------------------|-------------------|
+| 98291             | In Progress | Requirement-based Suite | Windows 10        |
+
+### Sub-Test Cases
+#### Test Case ID: 98284
+| **Title** | History sheets - Historical procedures show up as prior studies, manually printed |
+|-----------|-----------------------------------------------------------------------------------|
+| **Summary** | Historical items added from within another procedure should display on history sheets. |
+
+| **Step** | **Description**                                                                 | **Expected Outcome**                  |
+|----------|---------------------------------------------------------------------------------|---------------------------------------|
+| 1        | Create a new patient, enter any required fields, and save.                      | Patient created.                      |
+| 2        | Create a new screening ultrasound or MRI procedure. In the Prior Studies section, click "Add Prior" and select to add a prior study procedure. | Historical prior study is added.      |
+| 3        | Backdate the historical procedure by a year or so, enter the required fields, and save. | Historical procedure is saved.        |
+| 4        | Verify that the historical procedure was added to the current procedure as a prior study. | Prior study displays correctly.       |
+| 5        | Right-click on the current procedure and print the history sheet. Preview the Other Imaging history sheet and verify that the dates for the historical items are included. | Dates for historical items are included. |
+
+[Test Case ID 98284]
+
+#### Test Case ID: 98285
+| **Title** | History sheets - Historical procedures show up as prior studies, auto printed |
+|-----------|-------------------------------------------------------------------------------|
+| **Summary** | Historical items added from within another procedure should display on history sheets. |
+
+| **Step** | **Description**                                                                 | **Expected Outcome**                  |
+|----------|---------------------------------------------------------------------------------|---------------------------------------|
+| 1        | Submit an inbound HL7 ORM or ORU message that would create a current procedure. | HL7 message processed and history sheet is auto-printed. |
+| 2        | Verify the Historical procedure was added to the new procedure as a Prior study. | Prior study displays correctly on the auto-printed history sheet. |
+
+[Test Case ID 98285]
+"""
 
     def __init__(
         self,
